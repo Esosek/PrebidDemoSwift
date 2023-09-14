@@ -1,0 +1,6 @@
+module Pods_PrebidDemoSwift {
+  umbrella header "Pods-PrebidDemoSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}

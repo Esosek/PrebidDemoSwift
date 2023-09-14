@@ -1,0 +1,1 @@
+../../../PrebidMobile/PrebidMobile/Utils/OMSDKVersionProvider.h

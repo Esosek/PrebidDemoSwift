@@ -1,0 +1,6 @@
+module PrebidMobileGAMEventHandlers {
+  umbrella header "PrebidMobileGAMEventHandlers-umbrella.h"
+
+  export *
+  module * { export * }
+}
