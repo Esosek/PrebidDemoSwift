@@ -19,7 +19,7 @@ struct AdUnit {
     let height: Int
 }
 
-class ViewController: UIViewController, BannerViewDelegate {
+class ViewController: UIViewController, BannerViewDelegate, GADBannerViewDelegate {
     func bannerViewPresentationController() -> UIViewController? {
             return self
         }
@@ -28,30 +28,46 @@ class ViewController: UIViewController, BannerViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Didomi.shared.setupUI(containerController: self) // setup Didomi UI
+        Didomi.shared.setupUI(containerController: self)
         
         view.backgroundColor = .white
-        title = "GAM Rendering API"
+        title = "GAM Original API"
         
         
         let (smallRectangleContainer, bigRectangleContainer) = setupUIElements()
         
         let adUnits: [AdUnit] = [
+                //AdUnit(pbsPath: "prebid-demo-banner-320-50", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 320, height: 50),
                 AdUnit(pbsPath: "10900-imp-rectangle-300-50", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 300, height: 50),
                 AdUnit(pbsPath: "10900-imp-rectangle-300-250", gamPath: "/22794528025/PrebidDemoSwift_rectangle_2", view: bigRectangleContainer, width: 300, height: 250),
-                //AdUnit(pbsPath: "prebid-demo-banner-320-50", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 320, height: 50),
             ]
             
-        let adBannerViews = setupAdUnits(adUnits: adUnits)
-        adBannerViews[0].loadAd()
-        adBannerViews[1].loadAd()
+        let _adUnit = BannerAdUnit(configId: adUnits[0].pbsPath, size: CGSize(width: adUnits[0].width, height: adUnits[0].height))
+        _adUnit.setAutoRefreshMillis(time: 30)
         
-        refreshButton(adUnits: adBannerViews)
+        let parameters = BannerParameters()
+        parameters.api = [Signals.Api.MRAID_2]
+        _adUnit.bannerParameters = parameters
+
+        
+        let gamBanner = GAMBannerView(adSize: GADAdSizeFromCGSize(CGSize(width: adUnits[0].width, height: adUnits[0].height)))
+        gamBanner.adUnitID = adUnits[0].gamPath
+        gamBanner.rootViewController = self
+
+        gamBanner.delegate = self
+        adUnits[0].view.addSubview(gamBanner)
+        let gamRequest = GAMRequest()
+        _adUnit.fetchDemand(adObject: gamRequest) { [weak self] resultCode in
+            gamBanner.load(gamRequest)
+        }
+        
+        
+        refreshButton(adUnit: _adUnit, gamBanner: gamBanner, gamRequest: gamRequest)
     }
     
     private func setupUIElements() ->(UIView, UIView) {
         
-        let integrationTitleLabel = createLabel(text: "GAM Rendering API", fontSize: 30, isBold: true)
+        let integrationTitleLabel = createLabel(text: "GAM Original API", fontSize: 30, isBold: true)
         view.addSubview(integrationTitleLabel)
         
         let smallRectangleTitleLabel = createLabel(text: "Banner 300x50", fontSize: 20, isBold: true)
@@ -150,30 +166,12 @@ class ViewController: UIViewController, BannerViewDelegate {
         return currentTag
     }
     
-    private func setupAdUnits(adUnits: [AdUnit]) -> [BannerView] {
-        var adBannerViews: [BannerView] = []
-
-        for adUnit in adUnits {
-            let eventHandler = GAMBannerEventHandler(adUnitID: adUnit.gamPath,
-                                                     validGADAdSizes: [NSValueFromGADAdSize(GADAdSizeFromCGSize(CGSize(width: adUnit.width, height: adUnit.height)))])
-
-            let banner = BannerView(configID: adUnit.pbsPath,
-                                    eventHandler: eventHandler)
-
-            banner.delegate = self
-            adUnit.view.addSubview(banner)
-            adBannerViews.append(banner)
-        }
-        return adBannerViews
-    }
-    
-    private func refreshButton(adUnits: [BannerView]) {
+    private func refreshButton(adUnit: BannerAdUnit, gamBanner: GAMBannerView, gamRequest: GAMRequest ) {
         let refreshButton = createButton(title: "Refresh Ads", fontSize: 17) {
-                // Your refresh button action code here
-            for adUnit in adUnits {
-                adUnit.loadAd()
-            }
-        }
+            // Your refresh button action code here
+            adUnit.fetchDemand(adObject: gamRequest) { [weak self] resultCode in
+                gamBanner.load(gamRequest)
+            }}
         view.addSubview(refreshButton)
         
         NSLayoutConstraint.activate([

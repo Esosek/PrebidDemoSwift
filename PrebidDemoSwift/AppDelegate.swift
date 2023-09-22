@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     }
     
     func initPrebid(){
-        Prebid.shared.prebidServerAccountId = "10900-mobilewrapper-0"
+        Prebid.shared.prebidServerAccountId = "10900-mobilewrapper-1"
         //Prebid.shared.prebidServerAccountId = "0689a263-318d-448b-a3d4-b02e8a709d9d"
         Prebid.shared.prebidServerHost = .Rubicon
         /*Prebid.shared.prebidServerHost = PrebidHost.Custom
@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
             print(error)
         }*/
         // Prebid.shared.customStatusEndpoint = PREBID_SERVER_STATUS_ENDPOINT
-        Prebid.shared.timeoutMillis =  2000
+        Prebid.shared.timeoutMillis = 2000
         
         Prebid.initializeSDK(gadMobileAdsVersion: GADGetStringFromVersionNumber(GADMobileAds.sharedInstance().versionNumber)) { status, error in
             switch status {
