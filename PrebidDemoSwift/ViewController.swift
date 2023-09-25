@@ -11,6 +11,7 @@ import PrebidMobile
 import PrebidMobileGAMEventHandlers
 import GoogleMobileAds
 
+// Groups ad config for better ad control
 struct AdUnitConfig {
     let pbsPath: String
     let gamPath: String
@@ -19,6 +20,7 @@ struct AdUnitConfig {
     let height: Int
 }
 
+// Groups View and AdUnit for better ad control
 struct AdUnit {
     let bannerAdUnit: BannerAdUnit
     let gamBannerView: GAMBannerView
@@ -57,7 +59,7 @@ class ViewController: UIViewController, BannerViewDelegate, GADBannerViewDelegat
             }
         }
         
-        refreshButton(adUnits: _adUnits, gamRequest: _gamRequest)
+        adRefreshButton(adUnits: _adUnits, gamRequest: _gamRequest)
     }
     
     private func setupUIElements() ->(UIView, UIView) {
@@ -156,14 +158,12 @@ class ViewController: UIViewController, BannerViewDelegate, GADBannerViewDelegat
     
     // Helper function to create a unique tag for each button
     private func createUniqueTag() -> Int {
-        // Generate a unique tag here
         currentTag += 1
         return currentTag
     }
     
-    private func refreshButton(adUnits: [AdUnit], gamRequest: GAMRequest ) {
+    private func adRefreshButton(adUnits: [AdUnit], gamRequest: GAMRequest ) {
         let refreshButton = createButton(title: "Refresh Ads", fontSize: 17) {
-            // Your refresh button action code here
             for adUnit in adUnits {
                 adUnit.bannerAdUnit.fetchDemand(adObject: gamRequest) { resultCode in
                     adUnit.gamBannerView.load(gamRequest)
