@@ -177,6 +177,7 @@
         nextImp.extPrebid.storedRequestID = self.adConfiguration.configId;
         nextImp.extPrebid.storedAuctionResponse = Prebid.shared.storedAuctionResponse;
         nextImp.extPrebid.isRewardedInventory = self.adConfiguration.adConfiguration.isOptIn;
+        nextImp.extGPID = self.adConfiguration.gpid;
         
         if ([self.adConfiguration getExtData].count > 0) {
             nextImp.extData = [self.adConfiguration getExtData].mutableCopy;
@@ -272,7 +273,7 @@
                 if (self.adConfiguration.adPosition != PBMAdPositionUndefined) {
                     nextVideo.pos = @(self.adConfiguration.adPosition);
                 }
-            } else if (adFormat == AdFormat.native && adFormats.count == 1) {
+            } else if (adFormat == AdFormat.native) {
                 PBMORTBNative * const nextNative = nextImp.native;
                 nextNative.request = [self.adConfiguration.nativeAdConfiguration.markupRequestObject toJsonStringWithError:nil];
                 NSString * const ver = self.adConfiguration.nativeAdConfiguration.version;
