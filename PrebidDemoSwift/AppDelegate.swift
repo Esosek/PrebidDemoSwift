@@ -41,7 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     }
     
     func initPrebid(){
-        Prebid.shared.prebidServerAccountId = "10900-mobilewrapper-1"
+        //Prebid.shared.prebidServerAccountId = "10900-mobilewrapper-1"
+        Prebid.shared.prebidServerAccountId = "1001"
         //Prebid.shared.prebidServerAccountId = "0689a263-318d-448b-a3d4-b02e8a709d9d"
         Prebid.shared.prebidServerHost = .Rubicon
         /*Prebid.shared.prebidServerHost = PrebidHost.Custom

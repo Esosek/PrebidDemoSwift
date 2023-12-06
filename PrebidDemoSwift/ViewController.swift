@@ -45,8 +45,10 @@ class ViewController: UIViewController, BannerViewDelegate, GADBannerViewDelegat
         
         let _adUnitConfigs: [AdUnitConfig] = [
                 //AdUnitConfig(pbsPath: "prebid-demo-banner-320-50", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 320, height: 50),
-                AdUnitConfig(pbsPath: "10900-imp-rectangle-300-50", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 300, height: 50),
-                AdUnitConfig(pbsPath: "10900-imp-rectangle-300-250", gamPath: "/22794528025/PrebidDemoSwift_rectangle_2", view: bigRectangleContainer, width: 300, height: 250),
+                //AdUnitConfig(pbsPath: "10900-imp-rectangle-300-50", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 300, height: 50),
+                //AdUnitConfig(pbsPath: "10900-imp-rectangle-300-250", gamPath: "/22794528025/PrebidDemoSwift_rectangle_2", view: bigRectangleContainer, width: 300, height: 250),
+            AdUnitConfig(pbsPath: "1001-sreq-test-320x50-imp-1", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 320, height: 50),
+            AdUnitConfig(pbsPath: "1001-sreq-test-300x250-imp-1", gamPath: "/22794528025/PrebidDemoSwift_rectangle_2", view: bigRectangleContainer, width: 300, height: 250)
             ]
         let _adUnits: [AdUnit] = createAdUnits(configs: _adUnitConfigs)
         
