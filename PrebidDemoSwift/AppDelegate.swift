@@ -41,17 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     }
     
     func initPrebid(){
-        //Prebid.shared.prebidServerAccountId = "10900-mobilewrapper-1"
-        Prebid.shared.prebidServerAccountId = "1001"
-        //Prebid.shared.prebidServerAccountId = "0689a263-318d-448b-a3d4-b02e8a709d9d"
+        Prebid.shared.prebidServerAccountId = "10900-mobilewrapper-1"
         Prebid.shared.prebidServerHost = .Rubicon
-        /*Prebid.shared.prebidServerHost = PrebidHost.Custom
-        do {
-            try Prebid.shared.setCustomPrebidServer(url: "https://prebid-server-test-j.prebid.org/openrtb2/auction")
-        } catch {
-            print(error)
-        }*/
-        // Prebid.shared.customStatusEndpoint = PREBID_SERVER_STATUS_ENDPOINT
         Prebid.shared.timeoutMillis = 2000
         
         Prebid.initializeSDK(gadMobileAdsVersion: GADGetStringFromVersionNumber(GADMobileAds.sharedInstance().versionNumber)) { status, error in

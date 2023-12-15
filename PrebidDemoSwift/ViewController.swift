@@ -44,11 +44,8 @@ class ViewController: UIViewController, BannerViewDelegate, GADBannerViewDelegat
         let (smallRectangleContainer, bigRectangleContainer) = setupUIElements()
         
         let _adUnitConfigs: [AdUnitConfig] = [
-                //AdUnitConfig(pbsPath: "prebid-demo-banner-320-50", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 320, height: 50),
-                //AdUnitConfig(pbsPath: "10900-imp-rectangle-300-50", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 300, height: 50),
-                //AdUnitConfig(pbsPath: "10900-imp-rectangle-300-250", gamPath: "/22794528025/PrebidDemoSwift_rectangle_2", view: bigRectangleContainer, width: 300, height: 250),
-            AdUnitConfig(pbsPath: "1001-sreq-test-320x50-imp-1", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 320, height: 50),
-            AdUnitConfig(pbsPath: "1001-sreq-test-300x250-imp-1", gamPath: "/22794528025/PrebidDemoSwift_rectangle_2", view: bigRectangleContainer, width: 300, height: 250)
+                AdUnitConfig(pbsPath: "10900-imp-rectangle-300-50", gamPath: "/22794528025/PrebidDemoSwift_rectangle_1", view: smallRectangleContainer, width: 300, height: 50),
+                AdUnitConfig(pbsPath: "10900-imp-rectangle-300-250", gamPath: "/22794528025/PrebidDemoSwift_rectangle_2", view: bigRectangleContainer, width: 300, height: 250),
             ]
         let _adUnits: [AdUnit] = createAdUnits(configs: _adUnitConfigs)
         
@@ -201,6 +198,16 @@ class ViewController: UIViewController, BannerViewDelegate, GADBannerViewDelegat
         }
         
         return adUnits
+    }
+    
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+
+        AdViewUtils.findPrebidCreativeSize(bannerView, success: { size in
+            guard let bannerView = bannerView as? GAMBannerView else { return }
+            bannerView.resize(GADAdSizeFromCGSize(size))
+        }, failure: { (error) in
+           // The received ad is not Prebid’s one
+        })
     }
 }
 
